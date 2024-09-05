@@ -38,16 +38,10 @@ class MainActivity : AppCompatActivity() {
                 for (storageVolume in storageVolumes) {
                     val volumePath = FileUtilEx.getVolumePath(storageVolume)
                     if (volumePath == null) {
-                        Log.d(
-                            "AppLog",
-                            "storageVolume \"${storageVolume.getDescription(this)}\" - failed to get volumePath"
-                        )
+                        Log.d("AppLog", "storageVolume \"${storageVolume.getDescription(this)}\" - failed to get volumePath")
                     } else {
                         val hasAccess = storagePathsWeHaveAccessTo.contains(volumePath)
-                        Log.d(
-                            "AppLog",
-                            "storageVolume \"${storageVolume.getDescription(this)}\" - volumePath:$volumePath - gotAccess? $hasAccess"
-                        )
+                        Log.d("AppLog", "storageVolume \"${storageVolume.getDescription(this)}\" - volumePath:$volumePath - gotAccess? $hasAccess")
                     }
                 }
             }
@@ -64,21 +58,16 @@ class MainActivity : AppCompatActivity() {
         }
         addMenuProvider(object : MenuProvider {
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
-                menuInflater.inflate(R.menu.main,menu)
+                menuInflater.inflate(R.menu.main, menu)
             }
 
             override fun onMenuItemSelected(item: MenuItem): Boolean {
-                var url: String? = null
-                when (item.itemId) {
-                    R.id.menuItem_all_my_apps -> url =
-                        "https://play.google.com/store/apps/developer?id=AndroidDeveloperLB"
-
-                    R.id.menuItem_all_my_repositories -> url = "https://github.com/AndroidDeveloperLB"
-                    R.id.menuItem_current_repository_website -> url =
-                        "https://github.com/AndroidDeveloperLB/storageVolume"
+                val url: String = when (item.itemId) {
+                    R.id.menuItem_all_my_apps -> "https://play.google.com/store/apps/developer?id=AndroidDeveloperLB"
+                    R.id.menuItem_all_my_repositories -> "https://github.com/AndroidDeveloperLB"
+                    R.id.menuItem_current_repository_website -> "https://github.com/AndroidDeveloperLB/storageVolume"
+                    else -> return true
                 }
-                if (url == null)
-                    return true
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 @Suppress("DEPRECATION")
                 intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY or Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET)
